@@ -25,6 +25,7 @@ class GameLogic implements IGraphicsLogic {
 	private readonly layerStack: ILayerStack<BaseLayer<MouseEvent, KeyboardEvent>>;
 	private readonly mouse: Mouse;
 	private readonly keyboard: Keyboard;
+	private readonly spaceColor: Vector4;
 
 	public constructor() {
 		Renderer.setAPI(RendererAPI.WEB_GL);
@@ -34,6 +35,7 @@ class GameLogic implements IGraphicsLogic {
 		Input.instance = new BaseInput(this.mouse, this.keyboard);
 
 		this.layerStack = new BaseLayerStack();
+		this.spaceColor = new Vector4(0.05, 0.05, 0.05, 1.0);
 	}
 
 	public init(graphicsElement: GraphicsElement): void {
@@ -64,7 +66,7 @@ class GameLogic implements IGraphicsLogic {
 	}
 
 	public render(): void {
-		GameLogic.renderer.setClearColor(new Vector4(0, 0, 0, 1.0));
+		GameLogic.renderer.setClearColor(this.spaceColor);
 		GameLogic.renderer.clear();
 
 		const layers = this.layerStack.getLayers();

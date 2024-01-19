@@ -19,6 +19,7 @@ import Time from "../libs/graphics_engine/src/support/Time";
 import {textureFragmentShaderCode, textureVertexShaderCode} from "./TextureShader";
 import obstacleImage from "../resources/obstacle.png";
 import Level from "./Level";
+import Key from "../libs/events_system/src/keyboard/Key";
 
 class GameLayer extends BaseLayer<MouseEvent, KeyboardEvent> {
 	private readonly graphicsElement: GraphicsElement;
@@ -92,6 +93,10 @@ class GameLayer extends BaseLayer<MouseEvent, KeyboardEvent> {
 
 	public keyboardInput(event: KeyboardEvent): void {
 		this.cameraController.keyboardInput(event);
+
+		if (event.getCode() === Key.SPACE.valueOf()) {
+			this.level.start();
+		}
 	}
 
 	public mouseInput(event: MouseEvent): void {
@@ -99,12 +104,19 @@ class GameLayer extends BaseLayer<MouseEvent, KeyboardEvent> {
 	}
 
 	public update(time: Time): void {
-		this.cameraController.update(time);
-		this.level.update(time);
+		if (this.level.isPause()) {
+			return;
+		}
 
 		if (this.level.isGameOver()) {
 			this.level.restart();
+
+			this.cameraController.update(time);
+			this.level.update(time);
 		}
+
+		this.cameraController.update(time);
+		this.level.update(time);
 	}
 
 	public render(): void {

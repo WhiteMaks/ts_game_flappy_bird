@@ -24,10 +24,10 @@ module.exports = {
 	},
 	output: {
 		filename: 'bundle.js',
-		path: path.resolve(__dirname, './'),
+		path: path.resolve(__dirname, 'build'),
 	},
 	devServer: {
-		static: path.join(__dirname, "./"),
+		static: path.join(__dirname, "build"),
 		compress: true,
 		port: 4000,
 	},

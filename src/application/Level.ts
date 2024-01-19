@@ -22,6 +22,7 @@ class Level implements Cleanable {
 
 	private obstacles: Obstacle[];
 	private gameOver: boolean;
+	private pause: boolean;
 
 	public constructor(context: IGraphicsContext, shaderProgram: IShaderProgram, arrayBuffer: IArrayBuffer) {
 		this.context = context;
@@ -31,6 +32,7 @@ class Level implements Cleanable {
 		this.maxObstaclesCount = 4;
 
 		this.gameOver = false;
+		this.pause = true;
 
 		const bird = new Image();
 		bird.src = birdImage;
@@ -43,7 +45,7 @@ class Level implements Cleanable {
 		this.obstacleTexture.bind(0);
 
 		for (let i = 0; i < this.maxObstaclesCount; i++) {
-			this.createObstacle(i * this.obstacleOffset + 2);
+			this.createObstacle(i * this.obstacleOffset + 1.5);
 		}
 	}
 
@@ -127,15 +129,24 @@ class Level implements Cleanable {
 		return this.gameOver;
 	}
 
+	public isPause(): boolean {
+		return this.pause;
+	}
+
+	public start(): void {
+		this.pause = false;
+	}
+
 	public restart(): void {
 		this.player.reset();
 
 		this.obstacles = [];
 		for (let i = 0; i < this.maxObstaclesCount; i++) {
-			this.createObstacle(i * this.obstacleOffset + 2);
+			this.createObstacle(i * this.obstacleOffset + 1.5);
 		}
 
 		this.gameOver = false;
+		this.pause = true;
 	}
 
 	public clean(): void {

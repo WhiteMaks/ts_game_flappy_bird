@@ -6,5 +6,5 @@ if (!parentElement) {
 	throw new Error("Game element nof found");
 }
 
-const game =  new Game(parentElement, new GameLogic());
+const game = new Game(parentElement, new GameLogic());
 game.start();
