@@ -4,17 +4,12 @@ import Vector3 from "../libs/graphics_engine/src/maths/impl/Vector3";
 import birdImage from "../resources/bird.png";
 import obstacleImage from "../resources/obstacle.png";
 import Time from "../libs/graphics_engine/src/support/Time";
-import IShaderProgram from "../libs/graphics_engine/src/shader/IShaderProgram";
-import IArrayBuffer from "../libs/graphics_engine/src/buffer/IArrayBuffer";
 import Cleanable from "../libs/graphics_engine/src/support/Cleanable";
 import Obstacle from "./Obstacle";
 import ITexture from "../libs/graphics_engine/src/resource/ITexture";
 import ResourceFactory from "../libs/graphics_engine/src/factories/ResourceFactory";
 
 class Level implements Cleanable {
-	private readonly context: IGraphicsContext;
-	private readonly shaderProgram: IShaderProgram;
-	private readonly arrayBuffer: IArrayBuffer;
 	private readonly player: Player;
 	private readonly obstacleTexture: ITexture;
 	private readonly obstacleOffset: number;
@@ -24,10 +19,7 @@ class Level implements Cleanable {
 	private gameOver: boolean;
 	private pause: boolean;
 
-	public constructor(context: IGraphicsContext, shaderProgram: IShaderProgram, arrayBuffer: IArrayBuffer) {
-		this.context = context;
-		this.shaderProgram = shaderProgram;
-		this.arrayBuffer = arrayBuffer;
+	public constructor(context: IGraphicsContext) {
 		this.obstacleOffset = 1.1;
 		this.maxObstaclesCount = 4;
 
@@ -65,11 +57,10 @@ class Level implements Cleanable {
 	}
 
 	public render(): void {
-		this.shaderProgram.bind();
 		for (const obstacle of this.obstacles) {
-			obstacle.render(this.shaderProgram, this.arrayBuffer);
+			obstacle.render();
 		}
-		this.player.render(this.shaderProgram, this.arrayBuffer);
+		this.player.render();
 	}
 
 	public getPlayer(): Player {
@@ -118,10 +109,10 @@ class Level implements Cleanable {
 		const gap = Math.random() * 0.2;
 		const centre = Math.random() * 0.5 - 0.25;
 
-		const bottomObstacle = new Obstacle(this.context, new Vector3(offset, centre - 0.6 - gap, 0), new Vector3(0, 0, 0), this.obstacleTexture);
+		const bottomObstacle = new Obstacle(new Vector3(offset, centre - 0.6 - gap, 0), new Vector3(0, 0, 0), this.obstacleTexture);
 		this.obstacles.push(bottomObstacle);
 
-		const topObstacle = new Obstacle(this.context, new Vector3(offset, centre + 0.6 + gap, 0), new Vector3(0, 0, 180), this.obstacleTexture);
+		const topObstacle = new Obstacle(new Vector3(offset, centre + 0.6 + gap, 0), new Vector3(0, 0, 180), this.obstacleTexture);
 		this.obstacles.push(topObstacle);
 	}
 

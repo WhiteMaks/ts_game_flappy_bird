@@ -1,9 +1,6 @@
-import IGraphicsContext from "../libs/graphics_engine/src/renderer/IGraphicsContext";
 import Vector3 from "../libs/graphics_engine/src/maths/impl/Vector3";
 import ITexture from "../libs/graphics_engine/src/resource/ITexture";
 import Cleanable from "../libs/graphics_engine/src/support/Cleanable";
-import IShaderProgram from "../libs/graphics_engine/src/shader/IShaderProgram";
-import IArrayBuffer from "../libs/graphics_engine/src/buffer/IArrayBuffer";
 import GameLogic from "./GameLogic";
 import Transformation from "../libs/graphics_engine/src/maths/support/Transformation";
 
@@ -14,7 +11,7 @@ class Obstacle implements Cleanable {
 	private readonly rotation: Vector3;
 	private readonly scale: Vector3;
 
-	public constructor(context: IGraphicsContext, position: Vector3, rotation: Vector3, texture: ITexture) {
+	public constructor(position: Vector3, rotation: Vector3, texture: ITexture) {
 		this.position = position;
 		this.rotation =  rotation;
 		this.scale = new Vector3(0.1, 1, 1);
@@ -22,8 +19,8 @@ class Obstacle implements Cleanable {
 		this.texture = texture;
 	}
 
-	public render(shaderProgram: IShaderProgram, arrayBuffer: IArrayBuffer): void {
-		GameLogic.renderer.drawTrianglesWithTexture(shaderProgram, arrayBuffer, Transformation.getWorldMatrix(this.position, this.rotation, this.scale), this.texture);
+	public render(): void {
+		GameLogic.renderer.drawTrianglesWithTexture(Transformation.getWorldMatrix(this.position, this.rotation, this.scale), this.texture);
 	}
 
 	public getPosition(): Vector3 {

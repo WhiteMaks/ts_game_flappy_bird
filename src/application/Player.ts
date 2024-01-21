@@ -4,8 +4,6 @@ import ResourceFactory from "../libs/graphics_engine/src/factories/ResourceFacto
 import IGraphicsContext from "../libs/graphics_engine/src/renderer/IGraphicsContext";
 import GameLogic from "./GameLogic";
 import Transformation from "../libs/graphics_engine/src/maths/support/Transformation";
-import IShaderProgram from "../libs/graphics_engine/src/shader/IShaderProgram";
-import IArrayBuffer from "../libs/graphics_engine/src/buffer/IArrayBuffer";
 import Cleanable from "../libs/graphics_engine/src/support/Cleanable";
 import Time from "../libs/graphics_engine/src/support/Time";
 import Input from "../libs/events_system/src/inputs/Input";
@@ -61,8 +59,8 @@ class Player implements Cleanable {
 		this.rotation.setZ(this.velocity.getY() * 40000);
 	}
 
-	public render(shaderProgram: IShaderProgram, arrayBuffer: IArrayBuffer): void {
-		GameLogic.renderer.drawTrianglesWithTexture(shaderProgram, arrayBuffer, Transformation.getWorldMatrix(this.position, this.rotation, this.scale), this.texture);
+	public render(): void {
+		GameLogic.renderer.drawTrianglesWithTexture(Transformation.getWorldMatrix(this.position, this.rotation, this.scale), this.texture);
 	}
 
 	public getPosition(): Vector3 {

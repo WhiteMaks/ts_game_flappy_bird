@@ -16,11 +16,14 @@ import BaseLayerStack from "../libs/graphics_engine/src/layers/impl/BaseLayerSta
 import RendererFactory from "../libs/graphics_engine/src/factories/RendererFactory";
 import Vector4 from "../libs/graphics_engine/src/maths/impl/Vector4";
 import GameLayer from "./GameLayer";
+import Renderer2D from "../libs/graphics_engine/src/renderer/Renderer2D";
+import ShaderProgramFactory from "../libs/graphics_engine/src/factories/ShaderProgramFactory";
+import {textureFragmentShaderCode, textureVertexShaderCode} from "./TextureShader";
 
 class GameLogic implements IGraphicsLogic {
 	public static readonly shaderProgramLibrary: ShaderProgramLibrary = new ShaderProgramLibrary();
 
-	public static renderer: Renderer;
+	public static renderer: Renderer2D;
 
 	private readonly layerStack: ILayerStack<BaseLayer<MouseEvent, KeyboardEvent>>;
 	private readonly mouse: Mouse;
@@ -40,8 +43,12 @@ class GameLogic implements IGraphicsLogic {
 
 	public init(graphicsElement: GraphicsElement): void {
 		const context = graphicsElement.getGraphicsContext();
-		GameLogic.renderer = RendererFactory.create(context);
-		GameLogic.renderer.init(context);
+
+		const shaderProgram = ShaderProgramFactory.createProgram(context, "First shader program", textureVertexShaderCode, textureFragmentShaderCode);
+		GameLogic.shaderProgramLibrary.add(shaderProgram);
+
+		GameLogic.renderer = RendererFactory.create2D(context);
+		GameLogic.renderer.init(context, shaderProgram);
 
 		const gameLayer = new GameLayer(graphicsElement);
 		this.layerStack.push(gameLayer);
@@ -85,6 +92,7 @@ class GameLogic implements IGraphicsLogic {
 		}
 
 		GameLogic.shaderProgramLibrary.clean();
+		GameLogic.renderer.clean();
 	}
 
 	private addMouseListener(canvasElement: HTMLCanvasElement): void {
