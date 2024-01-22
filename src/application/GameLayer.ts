@@ -54,6 +54,8 @@ class GameLayer extends BaseLayer<MouseEvent, KeyboardEvent> {
 	}
 
 	public update(time: Time): void {
+		this.cameraController.update(time);
+
 		if (this.level.isPause()) {
 			return;
 		}
@@ -61,11 +63,9 @@ class GameLayer extends BaseLayer<MouseEvent, KeyboardEvent> {
 		if (this.level.isGameOver()) {
 			this.level.restart();
 
-			this.cameraController.update(time);
 			this.level.update(time);
 		}
 
-		this.cameraController.update(time);
 		this.level.update(time);
 	}
 

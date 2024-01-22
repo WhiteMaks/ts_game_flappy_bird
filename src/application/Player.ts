@@ -60,7 +60,7 @@ class Player implements Cleanable {
 	}
 
 	public render(): void {
-		GameLogic.renderer.drawTrianglesWithTexture(Transformation.getWorldMatrix(this.position, this.rotation, this.scale), this.texture);
+		GameLogic.renderer.drawTrianglesWithTexture(this.position, this.rotation, this.scale, this.texture);
 	}
 
 	public getPosition(): Vector3 {

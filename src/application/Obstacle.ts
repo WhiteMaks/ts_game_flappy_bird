@@ -2,7 +2,6 @@ import Vector3 from "../libs/graphics_engine/src/maths/impl/Vector3";
 import ITexture from "../libs/graphics_engine/src/resource/ITexture";
 import Cleanable from "../libs/graphics_engine/src/support/Cleanable";
 import GameLogic from "./GameLogic";
-import Transformation from "../libs/graphics_engine/src/maths/support/Transformation";
 
 class Obstacle implements Cleanable {
 	private readonly texture: ITexture;
@@ -20,7 +19,7 @@ class Obstacle implements Cleanable {
 	}
 
 	public render(): void {
-		GameLogic.renderer.drawTrianglesWithTexture(Transformation.getWorldMatrix(this.position, this.rotation, this.scale), this.texture);
+		GameLogic.renderer.drawTrianglesWithTexture(this.position, this.rotation, this.scale, this.texture);
 	}
 
 	public getPosition(): Vector3 {
