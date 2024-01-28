@@ -11,9 +11,11 @@ import Time from "../libs/graphics_engine/src/support/Time";
 import obstacleImage from "../resources/obstacle.png";
 import Level from "./Level";
 import Key from "../libs/events_system/src/keyboard/Key";
+import Vector4 from "../libs/graphics_engine/src/maths/impl/Vector4";
 
 class GameLayer extends BaseLayer<MouseEvent, KeyboardEvent> {
 	private readonly graphicsElement: GraphicsElement;
+	private readonly spaceColor: Vector4;
 
 	private cameraController: CameraController<MouseEvent, KeyboardEvent> | undefined;
 	private level: Level | undefined;
@@ -24,6 +26,7 @@ class GameLayer extends BaseLayer<MouseEvent, KeyboardEvent> {
 		super("Game layer");
 
 		this.graphicsElement = graphicsElement;
+		this.spaceColor = new Vector4(0.05, 0.05, 0.05, 1.0);
 	}
 
 	public attach(): void {
@@ -70,9 +73,16 @@ class GameLayer extends BaseLayer<MouseEvent, KeyboardEvent> {
 	}
 
 	public render(): void {
+		GameLogic.renderer.resetStatistics();
+
+		GameLogic.renderer.setClearColor(this.spaceColor);
+		GameLogic.renderer.clear();
+
 		GameLogic.renderer.begin(this.cameraController.getCamera());
 		this.level.render();
 		GameLogic.renderer.end();
+
+		GameLogic.renderer.getStatics();
 	}
 
 	public clean(): void {

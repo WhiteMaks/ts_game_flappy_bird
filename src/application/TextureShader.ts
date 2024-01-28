@@ -5,6 +5,9 @@ export const textureVertexShaderCode =
 	"layout (location = 1) in vec4 a_Color;\n" +
 	"layout (location = 2) in vec2 a_TextCoord;\n" +
 	"layout (location = 3) in float a_TextIndex;\n" +
+	"layout (location = 4) in vec3 a_Translate;\n" +
+	"layout (location = 5) in vec3 a_Rotation;\n" +
+	"layout (location = 6) in vec3 a_Scale;\n" +
 	"\n" +
 	"out vec2 v_TextCoord;\n" +
 	"out float v_TextIndex;\n" +
@@ -12,11 +15,33 @@ export const textureVertexShaderCode =
 	"\n" +
 	"uniform mat4 u_ViewProjectionMatrix;\n" +
 	"\n" +
+	"mat4 getWorldMatrix() {\n" +
+	"    mat4 translationMatrix = mat4(1.0);\n" +
+	"    translationMatrix[3] = vec4(a_Translate, 1.0);\n" +
+	"\n" +
+	"    mat4 rotationMatrixZ = mat4(\n" +
+	"        cos(a_Rotation.z), -sin(a_Rotation.z), 0.0, 0.0,\n" +
+	"        sin(a_Rotation.z), cos(a_Rotation.z), 0.0, 0.0,\n" +
+	"        0.0, 0.0, 1.0, 0.0,\n" +
+	"        0.0, 0.0, 0.0, 1.0\n" +
+	"    );" +
+	"\n" +
+	"    mat4 scaleMatrix = mat4(\n" +
+	"        a_Scale.x, 0.0, 0.0, 0.0,\n" +
+	"        0.0, a_Scale.y, 0.0, 0.0,\n" +
+	"        0.0, 0.0, a_Scale.z, 0.0,\n" +
+	"        0.0, 0.0, 0.0, 1.0\n" +
+	"    );\n" +
+	"\n" +
+	"    return translationMatrix * rotationMatrixZ * scaleMatrix;\n" +
+	"}" +
+	"\n" +
 	"void main() {\n" +
 	"    v_TextCoord = vec2(a_TextCoord.x, 1.0f - a_TextCoord.y);\n" +
 	"    v_TextIndex = a_TextIndex;\n" +
 	"    v_Color = a_Color;\n" +
-	"    gl_Position = u_ViewProjectionMatrix * a_Position;\n" +
+	"    mat4 worldMatrix = getWorldMatrix();\n" +
+	"    gl_Position = u_ViewProjectionMatrix * worldMatrix * a_Position;\n" +
 	"}"
 ;
 

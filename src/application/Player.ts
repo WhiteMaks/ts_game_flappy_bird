@@ -3,7 +3,6 @@ import ITexture from "../libs/graphics_engine/src/resource/ITexture";
 import ResourceFactory from "../libs/graphics_engine/src/factories/ResourceFactory";
 import IGraphicsContext from "../libs/graphics_engine/src/renderer/IGraphicsContext";
 import GameLogic from "./GameLogic";
-import Transformation from "../libs/graphics_engine/src/maths/support/Transformation";
 import Cleanable from "../libs/graphics_engine/src/support/Cleanable";
 import Time from "../libs/graphics_engine/src/support/Time";
 import Input from "../libs/events_system/src/inputs/Input";
@@ -56,11 +55,11 @@ class Player implements Cleanable {
 		this.position.setX(this.position.getX() + this.velocity.getX() * time.getDeltaTime());
 		this.position.setY(this.position.getY() + this.velocity.getY() * time.getDeltaTime());
 
-		this.rotation.setZ(this.velocity.getY() * 40000);
+		this.rotation.setZ(-this.velocity.getY() * 40000);
 	}
 
 	public render(): void {
-		GameLogic.renderer.drawTrianglesWithTexture(this.position, this.rotation, this.scale, this.texture);
+		GameLogic.renderer.drawQuadWithTexture(this.position, this.rotation, this.scale, this.texture);
 	}
 
 	public getPosition(): Vector3 {

@@ -19,7 +19,7 @@ class Obstacle implements Cleanable {
 	}
 
 	public render(): void {
-		GameLogic.renderer.drawTrianglesWithTexture(this.position, this.rotation, this.scale, this.texture);
+		GameLogic.renderer.drawQuadWithTexture(this.position, this.rotation, this.scale, this.texture);
 	}
 
 	public getPosition(): Vector3 {

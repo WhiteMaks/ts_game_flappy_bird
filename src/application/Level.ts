@@ -109,10 +109,10 @@ class Level implements Cleanable {
 		const gap = Math.random() * 0.2;
 		const centre = Math.random() * 0.5 - 0.25;
 
-		const bottomObstacle = new Obstacle(new Vector3(offset, centre - 0.6 - gap, 0), new Vector3(0, 0, 0), this.obstacleTexture);
+		const bottomObstacle = new Obstacle(new Vector3(offset, centre - 0.65 - gap, 0), new Vector3(0, 0, 0), this.obstacleTexture);
 		this.obstacles.push(bottomObstacle);
 
-		const topObstacle = new Obstacle(new Vector3(offset, centre + 0.6 + gap, 0), new Vector3(0, 0, 180), this.obstacleTexture);
+		const topObstacle = new Obstacle(new Vector3(offset, centre + 0.65 + gap, 0), new Vector3(0, 0, 180), this.obstacleTexture);
 		this.obstacles.push(topObstacle);
 	}
 

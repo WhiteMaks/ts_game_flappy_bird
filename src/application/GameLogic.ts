@@ -14,7 +14,6 @@ import BaseInput from "../libs/events_system/src/inputs/BaseInput";
 import Input from "../libs/events_system/src/inputs/Input";
 import BaseLayerStack from "../libs/graphics_engine/src/layers/impl/BaseLayerStack";
 import RendererFactory from "../libs/graphics_engine/src/factories/RendererFactory";
-import Vector4 from "../libs/graphics_engine/src/maths/impl/Vector4";
 import GameLayer from "./GameLayer";
 import Renderer2D from "../libs/graphics_engine/src/renderer/Renderer2D";
 import ShaderProgramFactory from "../libs/graphics_engine/src/factories/ShaderProgramFactory";
@@ -28,7 +27,6 @@ class GameLogic implements IGraphicsLogic {
 	private readonly layerStack: ILayerStack<BaseLayer<MouseEvent, KeyboardEvent>>;
 	private readonly mouse: Mouse;
 	private readonly keyboard: Keyboard;
-	private readonly spaceColor: Vector4;
 
 	public constructor() {
 		Renderer.setAPI(RendererAPI.WEB_GL);
@@ -38,7 +36,6 @@ class GameLogic implements IGraphicsLogic {
 		Input.instance = new BaseInput(this.mouse, this.keyboard);
 
 		this.layerStack = new BaseLayerStack();
-		this.spaceColor = new Vector4(0.05, 0.05, 0.05, 1.0);
 	}
 
 	public init(graphicsElement: GraphicsElement): void {
@@ -73,9 +70,6 @@ class GameLogic implements IGraphicsLogic {
 	}
 
 	public render(): void {
-		GameLogic.renderer.setClearColor(this.spaceColor);
-		GameLogic.renderer.clear();
-
 		const layers = this.layerStack.getLayers();
 		for (let layer of layers) {
 			layer.render();
