@@ -12,8 +12,10 @@ import obstacleImage from "../resources/obstacle.png";
 import Level from "./Level";
 import Key from "../libs/events_system/src/keyboard/Key";
 import Vector4 from "../libs/graphics_engine/src/maths/impl/Vector4";
+import ElementEvent from "../libs/events_system/src/element/ElementEvent";
+import ElementEventType from "../libs/events_system/src/element/ElementEventType";
 
-class GameLayer extends BaseLayer<MouseEvent, KeyboardEvent> {
+class GameLayer extends BaseLayer<MouseEvent, KeyboardEvent, ElementEvent> {
 	private readonly graphicsElement: GraphicsElement;
 	private readonly spaceColor: Vector4;
 
@@ -38,7 +40,7 @@ class GameLayer extends BaseLayer<MouseEvent, KeyboardEvent> {
 		this.obstacleTexture.bind(0);
 
 		this.level = new Level(context);
-		this.cameraController = new OrthographicCameraController(this.graphicsElement, this.level.getPlayer());
+		this.cameraController = new OrthographicCameraController(this.graphicsElement.getWidth(), this.graphicsElement.getHeight(), this.level.getPlayer());
 	}
 
 	public detach(): void {
@@ -54,6 +56,12 @@ class GameLayer extends BaseLayer<MouseEvent, KeyboardEvent> {
 
 	public mouseInput(event: MouseEvent): void {
 		this.cameraController.mouseInput(event);
+	}
+
+	public elementInput(event: ElementEvent) {
+		if (event.getType() === ElementEventType.RESIZE) {
+			this.cameraController.resize(event.getWidth(), event.getHeight());
+		}
 	}
 
 	public update(time: Time): void {

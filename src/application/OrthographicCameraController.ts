@@ -1,6 +1,5 @@
 import BaseOrthographicCameraController
 	from "../libs/graphics_engine/src/camera/controller/BaseOrthographicCameraController";
-import GraphicsElement from "../libs/graphics_engine/src/graphics/GraphicsElement";
 import Time from "../libs/graphics_engine/src/support/Time";
 import MouseEvent from "../libs/events_system/src/mouse/MouseEvent";
 import KeyboardEvent from "../libs/events_system/src/keyboard/KeyboardEvent";
@@ -9,8 +8,8 @@ import Player from "./Player";
 class OrthographicCameraController extends BaseOrthographicCameraController<MouseEvent, KeyboardEvent> {
 	private readonly player: Player;
 
-	public constructor(graphicsElement: GraphicsElement, player: Player) {
-		super(graphicsElement);
+	public constructor(width: number, height: number, player: Player) {
+		super(width, height);
 
 		this.player = player;
 	}

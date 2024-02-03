@@ -8,6 +8,7 @@ import BaseLayer from "../libs/graphics_engine/src/layers/impl/BaseLayer";
 import MouseEvent from "../libs/events_system/src/mouse/MouseEvent";
 import KeyboardEvent from "../libs/events_system/src/keyboard/KeyboardEvent";
 import Mouse from "../libs/events_system/src/mouse/Mouse";
+import Element from "../libs/events_system/src/element/Element";
 import Keyboard from "../libs/events_system/src/keyboard/Keyboard";
 import RendererAPI from "../libs/graphics_engine/src/renderer/RendererAPI";
 import BaseInput from "../libs/events_system/src/inputs/BaseInput";
@@ -17,20 +18,23 @@ import RendererFactory from "../libs/graphics_engine/src/factories/RendererFacto
 import GameLayer from "./GameLayer";
 import Renderer2D from "../libs/graphics_engine/src/renderer/Renderer2D";
 import ShaderProgramFactory from "../libs/graphics_engine/src/factories/ShaderProgramFactory";
-import {textureFragmentShaderCode, textureVertexShaderCode} from "./TextureShader";
+import ElementEvent from "../libs/events_system/src/element/ElementEvent";
+import Default2DShader from "../libs/graphics_engine/src/support/Default2DShader";
 
 class GameLogic implements IGraphicsLogic {
 	public static readonly shaderProgramLibrary: ShaderProgramLibrary = new ShaderProgramLibrary();
 
 	public static renderer: Renderer2D;
 
-	private readonly layerStack: ILayerStack<BaseLayer<MouseEvent, KeyboardEvent>>;
+	private readonly layerStack: ILayerStack<BaseLayer<MouseEvent, KeyboardEvent, ElementEvent>>;
 	private readonly mouse: Mouse;
 	private readonly keyboard: Keyboard;
+	private readonly element: Element;
 
 	public constructor() {
 		Renderer.setAPI(RendererAPI.WEB_GL);
 
+		this.element = new Element(16);
 		this.mouse = new Mouse(16);
 		this.keyboard = new Keyboard(16);
 		Input.instance = new BaseInput(this.mouse, this.keyboard);
@@ -39,9 +43,11 @@ class GameLogic implements IGraphicsLogic {
 	}
 
 	public init(graphicsElement: GraphicsElement): void {
+		this.element.onResize(graphicsElement.getWidth(), graphicsElement.getHeight());
+
 		const context = graphicsElement.getGraphicsContext();
 
-		const shaderProgram = ShaderProgramFactory.createProgram(context, "First shader program", textureVertexShaderCode, textureFragmentShaderCode);
+		const shaderProgram = ShaderProgramFactory.createProgram(context, "2D Default shader program", Default2DShader.getVertexShader(), Default2DShader.getFragmentShader());
 		GameLogic.shaderProgramLibrary.add(shaderProgram);
 
 		GameLogic.renderer = RendererFactory.create2D(context);
@@ -53,11 +59,33 @@ class GameLogic implements IGraphicsLogic {
 		const canvasElement = graphicsElement.getCanvasElement();
 		this.addMouseListener(canvasElement);
 		this.addKeyboardListener(canvasElement);
+		this.addElementListener(graphicsElement);
 	}
 
 	public input(): void {
-		this.mouseInput();
-		this.keyboardInput();
+		const layers = this.layerStack.getLayers()
+			.reverse();
+
+		const mouseEvent = this.mouse.read();
+		if (mouseEvent.isValid()) {
+			for (let layer of layers) {
+				layer.mouseInput(mouseEvent);
+			}
+		}
+
+		const keyboardEvent = this.keyboard.readKey();
+		if (keyboardEvent.isValid()) {
+			for (let layer of layers) {
+				layer.keyboardInput(keyboardEvent);
+			}
+		}
+
+		const elementEvent = this.element.read();
+		if (elementEvent.isValid()) {
+			for (let layer of layers) {
+				layer.elementInput(elementEvent);
+			}
+		}
 	}
 
 	public update(time: Time): void {
@@ -175,28 +203,14 @@ class GameLogic implements IGraphicsLogic {
 		);
 	}
 
-	private mouseInput(): void {
-		const mouseEvent = this.mouse.read();
-		if (mouseEvent.isValid()) {
-			const layers = this.layerStack.getLayers()
-				.reverse();
-
-			for (let layer of layers) {
-				layer.mouseInput(mouseEvent);
+	private addElementListener(graphicsElement: GraphicsElement): void {
+		window.addEventListener(
+			"resize",
+			() => {
+				graphicsElement.resize();
+				this.element.onResize(graphicsElement.getWidth(), graphicsElement.getHeight());
 			}
-		}
-	}
-
-	private keyboardInput(): void {
-		const keyboardEvent = this.keyboard.readKey();
-		if (keyboardEvent.isValid()) {
-			const layers = this.layerStack.getLayers()
-				.reverse();
-
-			for (let layer of layers) {
-				layer.keyboardInput(keyboardEvent);
-			}
-		}
+		);
 	}
 }
 
