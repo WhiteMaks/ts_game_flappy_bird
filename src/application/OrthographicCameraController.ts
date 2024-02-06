@@ -1,8 +1,8 @@
 import BaseOrthographicCameraController
-	from "../libs/graphics_engine/src/camera/controller/BaseOrthographicCameraController";
-import Time from "../libs/graphics_engine/src/support/Time";
-import MouseEvent from "../libs/events_system/src/mouse/MouseEvent";
-import KeyboardEvent from "../libs/events_system/src/keyboard/KeyboardEvent";
+	from "../libs/game_engine/src/libs/graphics_engine/src/camera/controller/BaseOrthographicCameraController";
+import Time from "../libs/game_engine/src/libs/graphics_engine/src/support/Time";
+import MouseEvent from "../libs/game_engine/src/libs/events_system/src/mouse/MouseEvent";
+import KeyboardEvent from "../libs/game_engine/src/libs/events_system/src/keyboard/KeyboardEvent";
 import Player from "./Player";
 
 class OrthographicCameraController extends BaseOrthographicCameraController<MouseEvent, KeyboardEvent> {

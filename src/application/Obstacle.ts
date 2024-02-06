@@ -1,7 +1,7 @@
-import Vector3 from "../libs/graphics_engine/src/maths/impl/Vector3";
-import ITexture from "../libs/graphics_engine/src/resource/ITexture";
-import Cleanable from "../libs/graphics_engine/src/support/Cleanable";
-import GameLogic from "./GameLogic";
+import Vector3 from "../libs/game_engine/src/libs/graphics_engine/src/maths/impl/Vector3";
+import ITexture from "../libs/game_engine/src/libs/graphics_engine/src/resource/ITexture";
+import Cleanable from "../libs/game_engine/src/libs/graphics_engine/src/support/Cleanable";
+import GameEngine from "../libs/game_engine/src/application/GameEngine";
 
 class Obstacle implements Cleanable {
 	private readonly texture: ITexture;
@@ -19,7 +19,7 @@ class Obstacle implements Cleanable {
 	}
 
 	public render(): void {
-		GameLogic.renderer.drawQuadWithTexture(this.position, this.rotation, this.scale, this.texture);
+		GameEngine.renderer2D.drawQuadWithTexture(this.position, this.rotation, this.scale, this.texture);
 	}
 
 	public getPosition(): Vector3 {

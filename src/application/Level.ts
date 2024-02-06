@@ -1,13 +1,13 @@
 import Player from "./Player";
-import IGraphicsContext from "../libs/graphics_engine/src/renderer/IGraphicsContext";
-import Vector3 from "../libs/graphics_engine/src/maths/impl/Vector3";
+import IGraphicsContext from "../libs/game_engine/src/libs/graphics_engine/src/renderer/IGraphicsContext";
+import Vector3 from "../libs/game_engine/src/libs/graphics_engine/src/maths/impl/Vector3";
 import birdImage from "../resources/bird.png";
 import obstacleImage from "../resources/obstacle.png";
-import Time from "../libs/graphics_engine/src/support/Time";
-import Cleanable from "../libs/graphics_engine/src/support/Cleanable";
+import Time from "../libs/game_engine/src/libs/graphics_engine/src/support/Time";
+import Cleanable from "../libs/game_engine/src/libs/graphics_engine/src/support/Cleanable";
 import Obstacle from "./Obstacle";
-import ITexture from "../libs/graphics_engine/src/resource/ITexture";
-import ResourceFactory from "../libs/graphics_engine/src/factories/ResourceFactory";
+import ITexture from "../libs/game_engine/src/libs/graphics_engine/src/resource/ITexture";
+import ResourceFactory from "../libs/game_engine/src/libs/graphics_engine/src/factories/ResourceFactory";
 
 class Level implements Cleanable {
 	private readonly player: Player;

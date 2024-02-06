@@ -1,10 +1,9 @@
-import GraphicsApplication from "../libs/graphics_engine/src/graphics/GraphicsApplication";
-import IGraphicsLogic from "../libs/graphics_engine/src/graphics/IGraphicsLogic";
+import GameEngine from "../libs/game_engine/src/application/GameEngine";
 
-class Game extends GraphicsApplication {
+class Game extends GameEngine {
 
-	public constructor(parentElement: HTMLElement, logic: IGraphicsLogic) {
-		super(parentElement, logic);
+	public constructor(parentElement: HTMLElement) {
+		super(parentElement);
 	}
 }
 

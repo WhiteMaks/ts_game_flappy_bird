@@ -1,12 +1,12 @@
-import Vector3 from "../libs/graphics_engine/src/maths/impl/Vector3";
-import ITexture from "../libs/graphics_engine/src/resource/ITexture";
-import ResourceFactory from "../libs/graphics_engine/src/factories/ResourceFactory";
-import IGraphicsContext from "../libs/graphics_engine/src/renderer/IGraphicsContext";
-import GameLogic from "./GameLogic";
-import Cleanable from "../libs/graphics_engine/src/support/Cleanable";
-import Time from "../libs/graphics_engine/src/support/Time";
-import Input from "../libs/events_system/src/inputs/Input";
-import Key from "../libs/events_system/src/keyboard/Key";
+import Vector3 from "../libs/game_engine/src/libs/graphics_engine/src/maths/impl/Vector3";
+import ITexture from "../libs/game_engine/src/libs/graphics_engine/src/resource/ITexture";
+import ResourceFactory from "../libs/game_engine/src/libs/graphics_engine/src/factories/ResourceFactory";
+import IGraphicsContext from "../libs/game_engine/src/libs/graphics_engine/src/renderer/IGraphicsContext";
+import Cleanable from "../libs/game_engine/src/libs/graphics_engine/src/support/Cleanable";
+import Time from "../libs/game_engine/src/libs/graphics_engine/src/support/Time";
+import Input from "../libs/game_engine/src/libs/events_system/src/inputs/Input";
+import Key from "../libs/game_engine/src/libs/events_system/src/keyboard/Key";
+import GameEngine from "../libs/game_engine/src/application/GameEngine";
 
 class Player implements Cleanable {
 	private readonly texture: ITexture;
@@ -59,7 +59,7 @@ class Player implements Cleanable {
 	}
 
 	public render(): void {
-		GameLogic.renderer.drawQuadWithTexture(this.position, this.rotation, this.scale, this.texture);
+		GameEngine.renderer2D.drawQuadWithTexture(this.position, this.rotation, this.scale, this.texture);
 	}
 
 	public getPosition(): Vector3 {
