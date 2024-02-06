@@ -1,9 +1,3 @@
-[submodule "src/libs/events_system"]
-	path = src/libs/events_system
-	url = https://github.com/WhiteMaks/ts_events_system.git
-[submodule "src/libs/graphics_engine"]
-	path = src/libs/graphics_engine
-	url = https://github.com/WhiteMaks/ts_graphics_engine.git
 [submodule "src/libs/game_engine"]
 	path = src/libs/game_engine
 	url = https://github.com/WhiteMaks/ts_game_engine.git
